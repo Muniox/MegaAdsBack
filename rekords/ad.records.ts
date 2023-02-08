@@ -27,7 +27,7 @@ export class AdRecord implements AdEntity {
         }
         //@TODO: Check if URL is valid!
         if(!obj.url || obj.url.length > 100) {
-            throw new ValidationExpressError('Adres ogłoszenia nie może być pusty, ani przekraczać 100 znaków.')
+            throw new ValidationExpressError('Link ogłoszenia nie może być pusty, ani przekraczać 100 znaków.')
         }
         if (typeof obj.lat !=='number' || typeof obj.lon !== 'number') {
             throw new ValidationExpressError('Nie można zlokalizować ogłoszenia')
