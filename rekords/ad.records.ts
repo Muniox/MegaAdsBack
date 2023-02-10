@@ -23,7 +23,7 @@ export class AdRecord implements AdEntity {
         }
 
         if (obj.price < 0 || obj.price > 9999999) {
-            throw new ValidationExpressError('Cena nie może być mniejsza niż 0 lub większa niż 9 999 999.')
+            throw new ValidationExpressError('Cena nie może być mniejsza niż 0 lub większa niż 9 999 999,00.')
         }
         //@TODO: Check if URL is valid!
         if(!obj.url || obj.url.length > 100) {
