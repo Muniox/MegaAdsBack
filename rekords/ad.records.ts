@@ -16,7 +16,6 @@ export class AdRecord implements AdEntity {
     public url: string;
     public lat: number;
     public lon: number;
-    
     constructor(obj: NewAdEntity) {
         if (!obj.name || obj.name.length > 100) {
             throw new ValidationExpressError('Nazwa ogłoszenia nie może być pusta lub przekraczać 100 znaków.');
@@ -43,12 +42,22 @@ export class AdRecord implements AdEntity {
         this.url = obj.url;
         this.lat = obj.lat;
         this.lon = obj.lon;
-    }
+    };
+
 
     static async getOne(id: string): Promise<AdRecord | null> {
-        const [results] = await pool.execute('SELECT * FROM `ads` WHERE id = :id', {
+        const [results] = await pool.execute('SELECT * FROM `ads` WHERE `id` = :id', {
             id
         }) as AdRecordResults;
         return results.length === 0 ? null : new AdRecord(results[0]);
-    }
+    };
+
+    static async findAll(name: string):Promise<AdRecord[]> {
+        const [results] = await pool.execute('SELECT * FROM `ads` WHERE `name` LIKE :search', {
+            search: `%${name}%`,
+        }) as AdRecordResults;
+
+        return results.map((result) => new AdRecord(result));
+        // return results.length === 0 ? null : results.map((result) => new AdRecord(result));
+    };
 }
