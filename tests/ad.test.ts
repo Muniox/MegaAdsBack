@@ -1,4 +1,10 @@
 import { AdRecord } from "../rekords/ad.records"
+import { AdEntity } from "../types";
+import { pool } from "../utils/db";
+
+afterAll(async () => {
+    await pool.end();
+});
 
 test('AdRecord.getOne returns data from database for one entry.', async () => {
     const ad = await AdRecord.getOne('abc');
@@ -36,4 +42,12 @@ test('AdRecord.findAll returns empty array when searching for something that doe
     const ads = await AdRecord.findAll('------------------------------');
 
     expect(ads).toEqual([]);
+});
+
+test('AdRecord.findAll returns smaller amount of data.', async () => {
+    const ads = await AdRecord.findAll('');
+
+    expect(ads[0].id).toBeDefined();
+    expect((ads[0] as AdEntity).price).toBeUndefined();
+    expect((ads[0] as AdEntity).description).toBeUndefined();
 });
