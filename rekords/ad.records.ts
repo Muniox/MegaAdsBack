@@ -2,6 +2,7 @@ import { FieldPacket } from "mysql2";
 import { AdEntity, NewAdEntity, SimpleAdEntity } from "../types";
 import { pool } from "../utils/db";
 import {ValidationExpressError} from "../utils/errors";
+import {v4 as uuid} from "uuid";
 
 type AdRecordResults = [
     AdEntity[],
@@ -61,11 +62,22 @@ export class AdRecord implements AdEntity {
             const {
                 id,lat,lon
             } = result;
-            
+
             return {
                 id,lat,lon
             }
         });
         // return results.length === 0 ? null : results.map((result) => new AdRecord(result));
     };
+
+    async insert(): Promise<void> {
+        if(!this.id) {
+            this.id = uuid();
+        } else {
+            throw new Error('Cannot insert something that is already inserted!');
+        }
+
+        await pool.execute(
+            'INSERT INTO `ads`(`id`, `name`, `description`, `price`, `url`, `lat`, `lon`) VALUES(:id, :name, :description, :price, :url, :lat, :lon)', this)
+    }
 }
