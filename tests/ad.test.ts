@@ -1,6 +1,6 @@
-import { AdRecord } from "../rekords/ad.records"
+import { AdRecord } from "../records/ad.records"
 import { AdEntity } from "../types";
-import { pool } from "../utils/db";
+import { pool } from "../utils/database";
 
 afterAll(async () => {
     await pool.end();

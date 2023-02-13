@@ -1,6 +1,6 @@
 import { FieldPacket } from "mysql2";
 import { AdEntity, NewAdEntity, SimpleAdEntity } from "../types";
-import { pool } from "../utils/db";
+import { pool } from "../utils/database";
 import {ValidationExpressError} from "../utils/errors";
 import {v4 as uuid} from "uuid";
 
